@@ -1,28 +1,46 @@
 import os
+import re
 
-path = '/fullpath/to/folder/with/pdfs' # define folder with pdfs to be processed
-dropletpath = '/fullpathtodroplet'
+watch_folder_path = './testwatchfolder/'
+#working_folder_path = '/fullpath/to/folder/with/pdfs' # define folder with pdfs to be processed
+folder_list = os.listdir(watch_folder_path) # get list of files in the folder
+#dropletpath = '/fullpathtodroplet'
+#filepath = f'{working_folder_path}{f}'
 suffix = 'pdf'
-files = os.listdir(path) # get list of files in the folder
-filepath = f'{path}{f}'
 
+
+def watch_folder():
+    print()
+    print(f"the watch folder is set to {watch_folder_path}")
+    print()
+    print(f"i see these folders in the watch folder: {folder_list}")
+    print()
+    for folder in folder_list:
+        if 'PSDCONVERT' in folder:
+            print(folder)
+            # TODO: set working folder path
+            working_folder_path = f"{watch_folder_path}{folder}"
+            print(f"the working folder path is: {working_folder_path}")
+            # TODO: convert files
+            # TODO: rename folder to PSDCOMPLETE
+            os.rename(working_folder_path, working_folder_path+"-DONE")
+        else:
+            print('skipped')
+
+
+"""
+
+        pdffolder = folderlist
+
+    # convert files
+
+      
 def run_droplet():
     for f in files:
         if filepath.endswith(suffix):
             open -a dropletpath filepath
         else:
             print("File skipped since it is not a pdf.")
+"""
 
-def watch_folder():
-
-
-    # get a list of folders
-    watchfolder = "/path/to/watchfolder"
-    folderlist = os.listdir(watchfolder)
-
-    # get name of folder from list and see PSD-DONE folder exists
-    pdffolder = folderlist
-
-    # convert files
-
-    # create new folder <foldername_PSD-DONE> and move psds to it
+watch_folder()
