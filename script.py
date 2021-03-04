@@ -2,10 +2,8 @@ import os
 import re
 
 watch_folder_path = './testwatchfolder/'
-#working_folder_path = '/fullpath/to/folder/with/pdfs' # define folder with pdfs to be processed
 folder_list = os.listdir(watch_folder_path) # get list of files in the folder
 #dropletpath = '/fullpathtodroplet'
-#filepath = f'{working_folder_path}{f}'
 suffix = 'pdf'
 
 
@@ -16,31 +14,30 @@ def watch_folder():
     print(f"i see these folders in the watch folder: {folder_list}")
     print()
     for folder in folder_list:
-        if 'PSDCONVERT' in folder:
+        if 'PSDCONVERT' in folder: # TODO: add logic to look for endswith -DONE
             print(folder)
-            # TODO: set working folder path
+            # set working folder path
             working_folder_path = f"{watch_folder_path}{folder}"
             print(f"the working folder path is: {working_folder_path}")
-            # TODO: convert files
-            # TODO: rename folder to PSDCOMPLETE
+
+            # convert files
+            run_droplet(working_folder_path)
+
+            # TODO: rename folder with foldername-DONE
             os.rename(working_folder_path, working_folder_path+"-DONE")
         else:
             print('skipped')
 
 
-"""
-
-        pdffolder = folderlist
-
-    # convert files
-
-      
-def run_droplet():
-    for f in files:
-        if filepath.endswith(suffix):
-            open -a dropletpath filepath
+def run_droplet(pdffolder):
+    for f in pdffolder:
+        if f.endswith(suffix):
+            filepath = f"{pdffolder}{f}"
+            print(filepath)
+            # TODO: rn droplet
+            # "open -a dropletpath filepath"
         else:
             print("File skipped since it is not a pdf.")
-"""
+
 
 watch_folder()
