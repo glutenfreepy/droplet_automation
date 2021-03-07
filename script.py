@@ -1,11 +1,9 @@
 import os
-import re
+
 
 watch_folder_path = './testwatchfolder/'
-#working_folder_path = '/fullpath/to/folder/with/pdfs' # define folder with pdfs to be processed
 folder_list = os.listdir(watch_folder_path) # get list of files in the folder
 #dropletpath = '/fullpathtodroplet'
-#filepath = f'{working_folder_path}{f}'
 suffix = 'pdf'
 
 
@@ -16,31 +14,39 @@ def watch_folder():
     print(f"i see these folders in the watch folder: {folder_list}")
     print()
     for folder in folder_list:
-        if 'PSDCONVERT' in folder:
-            print(folder)
-            # TODO: set working folder path
+        if folder.endswith("-DONE"):
+            print(f"skipping DONE folder {folder}")
+            continue
+
+        elif 'PSDCONVERT' in folder:
+            print(f"converting {folder}")
+            # set working folder path
             working_folder_path = f"{watch_folder_path}{folder}"
+
             print(f"the working folder path is: {working_folder_path}")
-            # TODO: convert files
-            # TODO: rename folder to PSDCOMPLETE
+
+            files = os.listdir(working_folder_path)
+
+            print(f"checking these files for pdfs: {files}")
+
+            # run droplet to convert files to psd
+            for file in files:
+                if file.endswith(suffix):
+                    filepath = f"{working_folder_path}/{file}"
+                    # TODO: run droplet
+                    print(f"running droplet on {filepath}")
+                    # "open -a dropletpath filepath"
+
+                else:
+                    print(f"{file} was skipped since it is not a pdf.")
+
+            # append "-DONE" to foldername
+            print("appending '-DONE' to foldername")
             os.rename(working_folder_path, working_folder_path+"-DONE")
+
         else:
-            print('skipped')
+            print(f'skipped folder {folder} - no PSDCONVERT found')
 
 
-"""
-
-        pdffolder = folderlist
-
-    # convert files
-
-      
-def run_droplet():
-    for f in files:
-        if filepath.endswith(suffix):
-            open -a dropletpath filepath
-        else:
-            print("File skipped since it is not a pdf.")
-"""
 
 watch_folder()
